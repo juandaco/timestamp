@@ -1,7 +1,14 @@
 const express = require('express');
 
 const app = express();
+const port = process.env.PORT || 8080;
 
+// Home with instructions
+app.get('/', (req, res) => {
+  res.send('Please ask for a date on the params');
+});
+
+// If passed a date
 app.get('/:str', (req, res) => {
   const str = req.params.str;
   let date, d;
@@ -20,13 +27,18 @@ app.get('/:str', (req, res) => {
       natural: d.toDateString() || null,
     };
   } else {
-  	date = {
-  		unix: null,
-  		natural: null,
-  	};
+    date = {
+      unix: null,
+      natural: null,
+    };
   }
 
-  res.send(date);
+  if (str) {
+    res.send(date);
+  } else {
+    res.send('Instructions');
+  }
+
 });
 
-app.listen(8080);
+app.listen(port);
